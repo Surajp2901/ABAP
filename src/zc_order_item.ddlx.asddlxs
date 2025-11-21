@@ -1,0 +1,91 @@
+
+@Metadata.layer: #CORE
+annotate entity ZC_ORDER_ITEM with
+{
+@UI.facet: [{
+id:       'OrderItems',
+purpose:  #STANDARD,
+type:     #IDENTIFICATION_REFERENCE,
+label:    'Order Items',
+position: 10
+}]
+
+@UI.lineItem: [
+{ position: 20, importance: #HIGH },
+{ type: #FOR_ACTION, dataAction: 'refreshitem', label: 'Refresh Item', position: 30 }
+]
+@UI.selectionField: [ { position: 20 } ]
+@EndUserText.label: 'Item Position'
+Itemposition;
+
+@EndUserText.label: 'Product'
+@UI: {
+lineItem:       [ { position: 30 } ],
+identification: [ { position: 30 } ],
+selectionField: [ { position: 30 } ]
+}
+Productid;
+
+@EndUserText.label: 'Note Language'
+@UI: {
+lineItem:       [ { position: 40 } ],
+identification: [ { position: 40 } ]
+}
+Notelanguage;
+
+@EndUserText.label: 'Currency'
+@UI: {
+lineItem:       [ { position: 50 } ],
+identification: [ { position: 50 } ]
+}
+Currencycode;
+
+@EndUserText.label: 'Gross Amount'
+@UI: {
+lineItem:       [ { position: 60 } ],
+identification: [ { position: 60 } ]
+}
+Grossamount;
+
+@EndUserText.label: 'Net Amount'
+@UI: {
+lineItem:       [ { position: 70 } ],
+identification: [ { position: 70 } ]
+}
+Netamount;
+
+@EndUserText.label: 'Tax Amount'
+@UI: {
+lineItem:       [ { position: 80 } ],
+identification: [ { position: 80 } ]
+}
+Taxamount;
+
+@EndUserText.label: 'Delivery Date'
+@UI: {
+lineItem:       [ { position: 90 } ],
+identification: [ { position: 90 } ]
+}
+Deliverydate;
+
+@EndUserText.label: 'Quantity'
+@UI: {
+lineItem:       [ { position: 100 } ],
+identification: [ { position: 100 } ]
+}
+Quantity;
+
+@EndUserText.label: 'Quantity Unit'
+@UI: {
+lineItem:       [ { position: 110 } ],
+identification: [ { position: 110 } ]
+}
+Quantityunit;
+
+@EndUserText.label: 'Note'
+@UI: {
+lineItem:       [ { position: 120 } ],
+identification: [ { position: 120 } ]
+}
+Note;
+}

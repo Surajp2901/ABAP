@@ -1,0 +1,165 @@
+@Metadata.layer: #CORE
+@UI: {
+headerInfo: {
+typeName:        'Sales Order',
+typeNamePlural:  'Sales Orders',
+title: {
+type:  #STANDARD,
+label: 'Sales Order',
+value: 'Salesorderid'
+},
+description: {
+type:  #STANDARD,
+value: 'Customername'
+}
+}
+}
+
+annotate entity ZC_ORDER_HEAD with
+{
+
+// --- Facets: General Info + Local Info + Items ---
+@UI.facet: [
+{
+id:       'GeneralInfo',
+purpose:  #STANDARD,
+type:     #IDENTIFICATION_REFERENCE,
+label:    'General Information',
+position: 10
+},
+{
+id:       'LocalInfo',
+purpose:  #STANDARD,
+type:     #FIELDGROUP_REFERENCE,
+label:    'Local Information',
+position: 15,
+targetQualifier: 'LocalInfoGroup'
+},
+{
+id:            'SalesOrderItems',
+purpose:       #STANDARD,
+type:          #LINEITEM_REFERENCE,
+label:         'Items',
+position:      20,
+targetElement: '_item'
+}
+]
+// --- Actions on List / Object Page ---
+@UI.lineItem: [
+{ type: #FOR_ACTION, dataAction: 'refresh', label: 'Refresh Header & Items' },
+{ type: #FOR_ACTION, dataAction: 'fetchdata', label: 'Fetch from S/4' },
+{ value: 'Salesorderid', position: 10, importance: #HIGH }
+]
+@EndUserText.label: 'Sales Order'
+@UI.identification: [
+{type: #FOR_ACTION, dataAction: 'refresh', label: 'Refresh Header & Items' },
+{value: 'Salesorderid', position: 10, importance: #HIGH }
+]
+@UI.selectionField: [ { position: 10 } ]
+Salesorderid;
+
+@EndUserText.label: 'Note'
+@UI.lineItem:       [ { position: 20, importance: #MEDIUM  } ]
+@UI.identification: [ { position: 20 } ]
+@UI.selectionField: [ { position: 20 } ]
+@UI.multiLineText: true
+Note;
+
+@EndUserText.label: 'Note Language'
+@UI.lineItem:       [ { position: 30 } ]
+@UI.identification: [ { position: 30 } ]
+@UI.selectionField: [ { position: 30 } ]
+Notelanguage;
+
+@EndUserText.label: 'Customer ID'
+@UI.lineItem:       [ { position: 40 , importance: #MEDIUM } ]
+@UI.identification: [ { position: 40 } ]
+@UI.selectionField: [ { position: 40 } ]
+Customerid;
+
+@EndUserText.label: 'Customer Name'
+@UI.lineItem:       [ { position: 50,  importance: #HIGH } ]
+@UI.identification: [ { position: 50 } ]
+@UI.selectionField: [ { position: 50 } ]
+Customername;
+
+@EndUserText.label: 'Gross Amount'
+@UI.lineItem:       [ { position: 60 , importance: #HIGH } ]
+@UI.identification: [ { position: 60 } ]
+@UI.selectionField: [ { position: 60 } ]
+Grossamount;
+
+@EndUserText.label: 'Net Amount'
+@UI.lineItem:       [ { position: 70 , importance: #HIGH} ]
+@UI.identification: [ { position: 70 } ]
+@UI.selectionField: [ { position: 70 } ]
+Netamount;
+
+@EndUserText.label: 'Tax Amount'
+@UI.lineItem:       [ { position: 80 , importance: #HIGH} ]
+@UI.identification: [ { position: 80 } ]
+@UI.selectionField: [ { position: 80 } ]
+Taxamount;
+
+@EndUserText.label: 'Lifecycle Status'
+@UI.lineItem:       [ { position: 90 } ]
+@UI.identification: [ { position: 90 } ]
+@UI.selectionField: [ { position: 90 } ]
+Lifecyclestatus;
+
+@EndUserText.label: 'Lifecycle Status Desc.'
+@UI.lineItem:       [ { position: 100, importance: #HIGH } ]
+@UI.identification: [ { position: 100 } ]
+@UI.selectionField: [ { position: 100 } ]
+Lifecyclestatusdescription;
+
+@EndUserText.label: 'Billing Status'
+@UI.lineItem:       [ { position: 110 } ]
+@UI.identification: [ { position: 110 } ]
+@UI.selectionField: [ { position: 110 } ]
+Billingstatus;
+
+@EndUserText.label: 'Billing Status Desc.'
+@UI.lineItem:       [ { position: 120, importance: #MEDIUM } ]
+@UI.identification: [ { position: 120 } ]
+@UI.selectionField: [ { position: 120 } ]
+Billingstatusdescription;
+
+@EndUserText.label: 'Delivery Status'
+@UI.lineItem:       [ { position: 130 } ]
+@UI.identification: [ { position: 130 } ]
+@UI.selectionField: [ { position: 130 } ]
+Deliverystatus;
+
+@EndUserText.label: 'Delivery Status Desc.'
+@UI.lineItem:       [ { position: 140, importance: #MEDIUM } ]
+@UI.identification: [ { position: 140 } ]
+@UI.selectionField: [ { position: 140 } ]
+Deliverystatusdescription;
+
+@EndUserText.label: 'Created in S/4 At'
+@UI.lineItem:       [ { position: 150, hidden: true , importance: #LOW } ]
+@UI.identification: [ { position: 150 } ]
+@UI.selectionField: [ { position: 150 } ]
+Created;
+
+@EndUserText.label: 'Changed in S/4 At'
+@UI.lineItem:       [ { position: 160, hidden: true, importance: #LOW  } ]
+@UI.identification: [ { position: 160 } ]
+@UI.selectionField: [ { position: 160 } ]
+Changed;
+
+// --- Local Information fields ---
+@EndUserText.label: 'Created locally at'
+@UI.fieldGroup:     [ { qualifier: 'LocalInfoGroup', position: 10 } ]
+localCreatedat;
+
+@EndUserText.label: 'Changed locally at'
+@UI.fieldGroup:     [ { qualifier: 'LocalInfoGroup', position: 20 } ]
+Locallastchangedat;
+
+@EndUserText.label: 'Changed locally by'
+@UI.fieldGroup:     [ { qualifier: 'LocalInfoGroup', position: 30 } ]
+localchangedby;
+
+}

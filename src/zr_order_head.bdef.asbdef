@@ -1,0 +1,103 @@
+managed implementation in class ZBP_R_ORDER_HEAD unique;
+strict ( 2 );
+with draft;
+extensible;
+define behavior for ZR_ORDER_HEAD alias head
+persistent table zorder_head
+extensible
+draft table zorder_head_d
+etag master LocalLastchangedat
+lock master total etag LocalLastchangedat
+early numbering
+authorization master ( global, instance )
+{
+
+create (features : global );
+update (features : instance);
+delete (features : instance);
+action ( features : instance ) refresh result [1] $self;
+static action fetchdata parameter zr_param result [1] $self;
+
+field ( readonly )
+customername,
+Locallastchangedat,
+localcreatedat,
+Salesorderid, lifecyclestatus,
+lifecyclestatusdescription ,
+billingstatus ,
+billingstatusdescription ,
+deliverystatus,
+deliverystatusdescription, grossamount, netamount, taxamount,
+created, changed, localchangedby ;
+
+field ( features: instance ) note;
+
+association _item { create ( features : instance ); with draft; }
+
+draft action Activate optimized;
+draft action Discard;
+draft action Edit;
+draft action Resume;
+draft determine action Prepare;
+
+determination determine_customername on modify { field customerid ; }
+
+mapping for zorder_head corresponding extensible
+{
+Salesorderid               = salesorderid;
+Note                       = note;
+Notelanguage               = notelanguage;
+Customerid                 = customerid;
+Customername               = customername;
+Currencycode               = currencycode;
+Grossamount                = grossamount;
+Netamount                  = netamount;
+Taxamount                  = taxamount;
+Lifecyclestatus            = lifecyclestatus;
+Lifecyclestatusdescription = lifecyclestatusdescription;
+Billingstatus              = billingstatus;
+Billingstatusdescription   = billingstatusdescription;
+Deliverystatus             = deliverystatus;
+Deliverystatusdescription  = deliverystatusdescription;
+Created                  = created;
+Changed                  = changed;
+Locallastchangedat         = locallastchangedat;
+LocalCreatedat             = localcreatedat;
+}
+
+}
+
+
+define behavior for ZR_ORDER_ITEM alias item
+persistent table zorder_item
+draft table zorder_item_d
+lock dependent by _head
+authorization dependent by _head
+{
+
+update ( features : instance );
+delete ( features : instance );
+field ( readonly ) Itemposition, Salesorderid;
+action ( features : instance ) refreshitem result [1] $self;
+association _head { with draft; }
+
+validation validate_amount on save { field Grossamount, Netamount, Taxamount; }
+validation validate_quantity on save { field Quantity; }
+determination determine_amount on modify { field netamount, grossamount, taxamount ; create; update; }
+
+mapping for zorder_item
+{
+Salesorderid = salesorderid;
+Itemposition = itemposition;
+Productid    = productid;
+Notelanguage = notelanguage;
+Currencycode = currencycode;
+Grossamount  = grossamount;
+Netamount    = netamount;
+Taxamount    = taxamount;
+Deliverydate = deliverydate;
+Quantity     = quantity;
+Quantityunit = quantityunit;
+Note         = note;
+}
+}

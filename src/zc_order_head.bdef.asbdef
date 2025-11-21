@@ -1,0 +1,49 @@
+projection implementation in class ZBP_C_ORDER_HEAD unique;
+strict ( 2 );
+extensible;
+use draft;
+use side effects;
+define behavior for ZC_ORDER_HEAD alias head
+
+extensible
+use etag
+{
+
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _item { create; with draft; }
+  use action refresh;
+  use action fetchdata;
+
+  side effects
+  { action refresh affects entity _item;
+    field customerid affects $self;
+  }
+
+}
+
+define behavior for ZC_ORDER_ITEM alias item
+
+{
+  use update;
+  use delete;
+  use association _head { with draft; }
+  use action refreshitem;
+
+
+  side effects
+  { action refreshitem affects $self;
+    field grossamount affects entity _head;
+    field netamount affects entity _head;
+    field taxamount affects entity _head;
+  }
+
+}
