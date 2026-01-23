@@ -83,19 +83,19 @@ CLASS lhc_item IMPLEMENTATION.
 
         " Your existing S/4HANA connection code...
         DATA(lo_destination) = cl_http_destination_provider=>create_by_url(
-          'https://sapes5.sapdevcenter.com'
+          'https://bcd184fbtrial-trial.integrationsuitetrial-apim.us10.hana.ondemand.com/bcd184fbtrial/GWSAMPLE_BASIC'
         ).
 
         lo_http_client = cl_web_http_client_manager=>create_by_http_destination( lo_destination ).
 
-        lo_http_client->get_http_request( )->set_authorization_basic(
-          i_username = 'S0025726574'
-          i_password = 'Sap@7161'
+        lo_http_client->get_http_request( )->set_header_field(
+          i_name  = 'sap-client'
+          i_value = '100'
         ).
 
         lo_http_client->get_http_request( )->set_header_field(
-          i_name  = 'sap-client'
-          i_value = '002'
+        i_name  = 'Accept-Encoding'
+        i_value = 'gzip'
         ).
 
         lo_http_client->get_http_request( )->set_header_field(
@@ -106,10 +106,10 @@ CLASS lhc_item IMPLEMENTATION.
         lo_client_proxy = /iwbep/cl_cp_factory_remote=>create_v2_remote_proxy(
           EXPORTING
              is_proxy_model_key       = VALUE #( repository_id       = 'DEFAULT'
-                                                 proxy_model_id      = 'ZSERVICE_CONSUMPTION'
+                                                 proxy_model_id      = 'ZSERVICE_CONSUMPTION_N'
                                                  proxy_model_version = '0001' )
             io_http_client             = lo_http_client
-            iv_relative_service_root   = '/sap/opu/odata/iwbep/GWSAMPLE_BASIC/' ).
+            iv_relative_service_root   = '' ).
 
         ASSERT lo_http_client IS BOUND.
 
@@ -129,7 +129,6 @@ CLASS lhc_item IMPLEMENTATION.
                                                                it_range             = lt_range_soid ).
 
         lo_request_item->set_filter( lo_filter_node_1 ).
-        lo_request_item->set_top( 50 )->set_skip( 0 ).
 
         " Execute the request and retrieve the business data
         lo_response_item = lo_request_item->execute( ).
@@ -409,10 +408,10 @@ CLASS lhc_zr_order_head IMPLEMENTATION.
 
   METHOD get_instance_features.
 
-  READ ENTITIES OF zr_order_head IN LOCAL MODE
-  ENTITY head
-  ALL FIELDS WITH CORRESPONDING #( keys )
-  RESULT DATA(lt_head).
+    READ ENTITIES OF zr_order_head IN LOCAL MODE
+    ENTITY head
+    ALL FIELDS WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_head).
 
     IF lt_head[ 1 ]-Billingstatus IS NOT INITIAL
     OR lt_head[ 1 ]-Deliverystatus IS NOT INITIAL.
@@ -454,19 +453,14 @@ CLASS lhc_zr_order_head IMPLEMENTATION.
     TRY.
         " Your existing S/4HANA connection code...
         DATA(lo_destination) = cl_http_destination_provider=>create_by_url(
-          'https://sapes5.sapdevcenter.com'
+          'https://bcd184fbtrial-trial.integrationsuitetrial-apim.us10.hana.ondemand.com/bcd184fbtrial/GWSAMPLE_BASIC'
         ).
 
         lo_http_client = cl_web_http_client_manager=>create_by_http_destination( lo_destination ).
 
-        lo_http_client->get_http_request( )->set_authorization_basic(
-          i_username = 'S0025726574'
-          i_password = 'Sap@7161'
-        ).
-
         lo_http_client->get_http_request( )->set_header_field(
           i_name  = 'sap-client'
-          i_value = '002'
+          i_value = '100'
         ).
 
         lo_http_client->get_http_request( )->set_header_field(
@@ -478,11 +472,11 @@ CLASS lhc_zr_order_head IMPLEMENTATION.
           EXPORTING
             is_proxy_model_key = VALUE #(
               repository_id       = 'DEFAULT'
-              proxy_model_id      = 'ZSERVICE_CONSUMPTION'
+              proxy_model_id      = 'ZSERVICE_CONSUMPTION_N'
               proxy_model_version = '0001'
             )
             io_http_client         = lo_http_client
-            iv_relative_service_root = '/sap/opu/odata/iwbep/GWSAMPLE_BASIC/'
+            iv_relative_service_root = ''
         ).
 
         IF lo_client_proxy IS NOT BOUND.
